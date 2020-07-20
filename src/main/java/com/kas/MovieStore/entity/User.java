@@ -6,9 +6,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -34,6 +37,17 @@ public class User implements UserDetails {
 
     @NotNull
     private Date birthDate;
+
+    @NotNull
+    @Min(value = 0)
+    private int moviesWatched;
+
+    @OneToMany(
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<UserMovie> movies = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -91,6 +105,14 @@ public class User implements UserDetails {
         this.birthDate = birthDate;
     }
 
+    public int getMoviesWatched() {
+        return moviesWatched;
+    }
+
+    public void setMoviesWatched(int moviesWatched) {
+        this.moviesWatched = moviesWatched;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -124,5 +146,6 @@ public class User implements UserDetails {
         this.password = password;
         this.name = name;
         this.birthDate = birthDate;
+        moviesWatched = 0;
     }
 }
