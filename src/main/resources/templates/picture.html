@@ -8,22 +8,36 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>Main page</title>
+    <title>Change picture</title>
 </head>
 <body class="bg">
-<div class="d-flex flex-column flex-md-row justify-content-end p-3 px-md-4 mb-3">
-    <a class="btn btn-dark btn-head" href="/login" sec:authorize="!isAuthenticated()">Log in</a>
-    <a class="btn btn-dark btn-head" href="/registration" sec:authorize="!isAuthenticated()">Sign up</a>
-    <a class="btn btn-dark btn-head" href="/profile" sec:authorize="isAuthenticated()" th:text="${username}"/>
-    <a class="btn btn-dark btn-head" href="/logout" sec:authorize="isAuthenticated()">Log out</a>
-    <a class="btn btn-dark btn-head" href="/">Main</a>
-</div>
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-sm-4 col-xs-12"></div>
-        <div class="col-md-4 col-sm-4 col-xs-12"></div>
-        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-2 col-sm-2 col-xs-12"></div>
+        <div class="col-md-8 col-sm-8 col-xs-12">
+            <form action="/profile/picture" method="post" class="form-container" style="text-align: center">
+                <script type="text/javascript">
+                    var img = document.getElementById()
+                </script>
+                <img src="img/profilePics/1.png" onclick="focus()">
+                <img src="img/profilePics/2.png">
+                <img src="img/profilePics/3.png">
+                <img src="img/profilePics/4.png">
+                <img src="img/profilePics/5.png">
+                <img src="img/profilePics/6.png">
+                <img src="img/profilePics/7.png">
+                <img src="img/profilePics/8.png">
+                <img src="img/profilePics/9.png">
+                <img src="img/profilePics/10.png">
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-medium btn-secondary" th:action="">Select</button>
+                </div>
+                <div class="form-group" style="text-align: center">
+                    <a href="/profile" class="btn btn-medium btn-secondary">Back</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-12"></div>
     </div>
 
 

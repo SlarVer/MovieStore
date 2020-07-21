@@ -10,7 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -35,7 +37,21 @@ public class UserService implements UserDetailsService {
         }
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+        user.setProfilePic("0.png");
         userRepository.save(user);
         return true;
+    }
+
+    public boolean checkPassword(String username, String rawPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, userRepository.findByUsername(username).getPassword());
+    }
+
+//    public List<String> customPasswordValidation(String password) {
+//        String regex = "/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g";
+//    }
+
+    @Transactional
+    public void updatePassword(String username, String password) {
+        userRepository.findByUsername(username).setPassword(bCryptPasswordEncoder.encode(password));
     }
 }

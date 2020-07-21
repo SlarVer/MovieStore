@@ -9,6 +9,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 
@@ -28,12 +29,21 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registrationProcess(@ModelAttribute("user") @Valid User newUser, Errors errors, Model model) {
+    public String registrationProcess(@ModelAttribute("user") @Valid User newUser, @RequestParam String repeatPassword,
+                                      Errors errors, Model model) {
+        if (!newUser.getPassword().equals(repeatPassword)) {
+            model.addAttribute("passwordRepeatError", "Passwords don't match");
+            return "registration";
+        }
         if (errors.hasErrors()) {
             return "registration";
         } else {
-            userService.saveUser(newUser);
+            if (userService.saveUser(newUser)) {
+                return "redirect:login";
+            } else {
+                model.addAttribute("userExistsError", "Username already taken");
+                return "registration";
+            }
         }
-        return "redirect:login";
     }
 }

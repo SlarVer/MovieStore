@@ -42,6 +42,11 @@ public class User implements UserDetails {
     @Min(value = 0)
     private int moviesWatched;
 
+    @Min(value = 0)
+    private double avgMark;
+
+    private String profilePic;
+
     @OneToMany(
             mappedBy = "user",
             cascade = CascadeType.ALL,
@@ -113,6 +118,30 @@ public class User implements UserDetails {
         this.moviesWatched = moviesWatched;
     }
 
+    public double getAvgMark() {
+        return avgMark;
+    }
+
+    public void setAvgMark(double avgMark) {
+        this.avgMark = avgMark;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public List<UserMovie> getMovies() {
+        return movies;
+    }
+
+    public void setMovies(List<UserMovie> movies) {
+        this.movies = movies;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -146,6 +175,5 @@ public class User implements UserDetails {
         this.password = password;
         this.name = name;
         this.birthDate = birthDate;
-        moviesWatched = 0;
     }
 }
