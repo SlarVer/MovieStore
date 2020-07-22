@@ -34,12 +34,13 @@ public class UserService implements UserDetailsService {
     public boolean saveUser(User user) {
         if (userRepository.findByUsername(user.getUsername()) != null){
             return false;
+        } else {
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
+            user.setProfilePic("0.png");
+            userRepository.save(user);
+            return true;
         }
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRoles(Collections.singleton(new Role(1L, "ROLE_USER")));
-        user.setProfilePic("0.png");
-        userRepository.save(user);
-        return true;
     }
 
     public boolean checkPassword(String username, String rawPassword) {

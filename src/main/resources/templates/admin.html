@@ -8,40 +8,27 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>Main page</title>
+    <title>Admin</title>
 </head>
 <body class="bg">
-<div class="d-flex flex-column flex-md-row justify-content-end p-3 px-md-4 mb-3">
-    <a class="btn btn-dark btn-head" href="/login" sec:authorize="!isAuthenticated()">Log in</a>
-    <a class="btn btn-dark btn-head" href="/registration" sec:authorize="!isAuthenticated()">Sign up</a>
-    <a class="btn btn-dark btn-head" href="/profile" sec:authorize="isAuthenticated()" th:text="${username}"/>
-    <a class="btn btn-dark btn-head" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
-    <a class="btn btn-dark btn-head" href="/logout" sec:authorize="isAuthenticated()">Log out</a>
-    <a class="btn btn-dark btn-head" href="/">Main</a>
-</div>
-
-
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12"></div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
             <form class="form-container" style="text-align: center">
                 <div class="form-group">
-                    <a href="/allMovies" class="btn btn-medium btn-secondary">All movies</a>
+                    <a href="/admin/add" class="btn btn-medium btn-secondary">Add new movies</a>
                 </div>
                 <div class="form-group">
-                    <a href="/topMovies" class="btn btn-medium btn-secondary">Top rated movies</a>
+                    <a href="/admin/editTop" class="btn btn-medium btn-secondary">Change editor's choice</a>
                 </div>
-                <div class="form-group">
-                    <a href="/selectedMovies" class="btn btn-medium btn-secondary">Editor's choice</a>
+                <div class="form-group" style="text-align: center">
+                    <a href="/" class="btn btn-medium btn-secondary">Main page</a>
                 </div>
             </form>
         </div>
-        <div class="col-md-3 col-sm-3 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
     </div>
-
-
 </div>
 
 

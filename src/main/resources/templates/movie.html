@@ -26,15 +26,14 @@
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container" style="text-align: center">
-                <div class="form-group">
-                    <a href="/allMovies" class="btn btn-medium btn-secondary">All movies</a>
-                </div>
-                <div class="form-group">
-                    <a href="/topMovies" class="btn btn-medium btn-secondary">Top rated movies</a>
-                </div>
-                <div class="form-group">
-                    <a href="/selectedMovies" class="btn btn-medium btn-secondary">Editor's choice</a>
+            <form class="form-container">
+                <div class="alert-dark">
+                    <h3 th:text="${movie.title}"/>
+                    <p th:text="'Slogan: ' + ${movie.slogan}"/>
+                    <p th:text="'Year: ' + ${movie.year}"/>
+                    <p th:text="'Length: ' + ${movie.length}"/>
+                    <p th:text="'Times rated: ' + ${movie.numberOfViews}"/>
+                    <p th:text="'Rating: ' + ${movie.rating}"/>
                 </div>
             </form>
         </div>

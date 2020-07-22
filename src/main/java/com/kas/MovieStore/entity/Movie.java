@@ -17,14 +17,19 @@ public class Movie {
     private Long id;
 
     @NotNull
-    @Size(min = 1)
+    @Size(min = 1, message = "Length must be at least 1")
     private String title;
 
     @NotNull
-    @Size(min = 1)
+    @Size(min = 1, message = "Length must be at least 1")
     private String slogan;
 
     @NotNull
+    @Min(value = 1895)
+    private int year;
+
+    @NotNull
+    @Min(value = 1, message = "At least 1 minute")
     private int length;
 
     @NotNull
@@ -91,14 +96,21 @@ public class Movie {
         this.rating = rating;
     }
 
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
     public Movie() {
     }
 
-    public Movie(@Size(min = 1) String title, @Size(min = 1) String slogan, int length, @Min(value = 0) int numberOfViews, @Min(value = 0) @Max(value = 10) double rating) {
+    public Movie(@Size(min = 1) String title, @Size(min = 1) String slogan, @Min(value = 1895) int year, int length) {
         this.title = title;
         this.slogan = slogan;
+        this.year = year;
         this.length = length;
-        this.numberOfViews = numberOfViews;
-        this.rating = rating;
     }
 }

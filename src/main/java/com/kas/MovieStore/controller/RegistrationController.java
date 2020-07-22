@@ -29,21 +29,19 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String registrationProcess(@ModelAttribute("user") @Valid User newUser, @RequestParam String repeatPassword,
+    public String registrationProcess(@RequestParam String repeatPassword, @ModelAttribute("user") @Valid User newUser,
                                       Errors errors, Model model) {
-        if (!newUser.getPassword().equals(repeatPassword)) {
-            model.addAttribute("passwordRepeatError", "Passwords don't match");
-            return "registration";
-        }
         if (errors.hasErrors()) {
             return "registration";
+        } else if (!newUser.getPassword().equals(repeatPassword)) {
+            model.addAttribute("passwordRepeatError", "Passwords don't match");
         } else {
             if (userService.saveUser(newUser)) {
                 return "redirect:login";
             } else {
                 model.addAttribute("userExistsError", "Username already taken");
-                return "registration";
             }
         }
+        return "registration";
     }
 }
