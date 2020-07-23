@@ -11,11 +11,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @Controller
 public class AdminController {
     @Autowired
     MovieService movieService;
+
+    @ModelAttribute
+    public void globalPageAttributes(Model model, Principal principal) {
+        model.addAttribute("username", principal.getName());
+    }
 
     @GetMapping("/admin")
     public String admin(){

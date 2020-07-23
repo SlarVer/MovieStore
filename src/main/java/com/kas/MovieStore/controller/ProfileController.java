@@ -22,6 +22,7 @@ public class ProfileController {
     @ModelAttribute
     public void globalPageAttributes(Model model, Principal principal) {
         model.addAttribute("currentUser", userService.loadUserByUsername(principal.getName()));
+        model.addAttribute("username", principal.getName());
     }
 
     @GetMapping("/profile")

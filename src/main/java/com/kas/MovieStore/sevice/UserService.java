@@ -2,6 +2,8 @@ package com.kas.MovieStore.sevice;
 
 import com.kas.MovieStore.entity.Role;
 import com.kas.MovieStore.entity.User;
+import com.kas.MovieStore.entity.UserMovie;
+import com.kas.MovieStore.repository.UserMovieRepository;
 import com.kas.MovieStore.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,6 +22,9 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    UserMovieRepository userMovieRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,5 +54,14 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void updatePassword(String username, String password) {
         userRepository.findByUsername(username).setPassword(bCryptPasswordEncoder.encode(password));
+    }
+
+    @Transactional
+    public void calculateAvgMark(User user) {
+        int sumMark = 0;
+        for (UserMovie userMovie: userMovieRepository.getAllByUser(user)) {
+            sumMark += userMovie.getMark();
+        }
+        user.setAvgMark((double) sumMark / user.getMovies().size());
     }
 }

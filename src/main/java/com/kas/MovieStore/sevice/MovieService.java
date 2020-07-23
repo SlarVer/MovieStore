@@ -1,7 +1,9 @@
 package com.kas.MovieStore.sevice;
 
 import com.kas.MovieStore.entity.Movie;
+import com.kas.MovieStore.entity.UserMovie;
 import com.kas.MovieStore.repository.MovieRepository;
+import com.kas.MovieStore.repository.UserMovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,9 @@ import java.util.List;
 public class MovieService {
     @Autowired
     MovieRepository movieRepository;
+
+    @Autowired
+    UserMovieRepository userMovieRepository;
 
     public Movie findByTitle(String title) {
         return movieRepository.findByTitle(title);
@@ -39,5 +44,14 @@ public class MovieService {
 
     public void deleteMovie(Movie movie) {
         movieRepository.delete(movie);
+    }
+
+    @Transactional
+    public void calculateRating(Movie movie) {
+        int sumRating = 0;
+        for (UserMovie userMovie: userMovieRepository.getAllByMovie(movie)) {
+            sumRating += userMovie.getMark();
+        }
+        movie.setRating((double) sumRating / movie.getUsers().size());
     }
 }

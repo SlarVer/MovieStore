@@ -55,9 +55,10 @@ public class UserMovie {
 
     public UserMovie() {}
 
-    public UserMovie(User user, Movie movie) {
+    public UserMovie(User user, Movie movie, int mark) {
         this.user = user;
         this.movie = movie;
+        this.mark = mark;
         this.id = new UserMovieId(user.getId(), movie.getId());
     }
 

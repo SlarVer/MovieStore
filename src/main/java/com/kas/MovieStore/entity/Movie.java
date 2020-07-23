@@ -104,6 +104,14 @@ public class Movie {
         this.year = year;
     }
 
+    public List<UserMovie> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<UserMovie> users) {
+        this.users = users;
+    }
+
     public Movie() {
     }
 
@@ -112,6 +120,10 @@ public class Movie {
         this.slogan = slogan;
         this.year = year;
         this.length = length;
+    }
+
+    public void increaseViews() {
+        this.numberOfViews++;
     }
 
     public void copy(Movie movie) {

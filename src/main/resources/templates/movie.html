@@ -11,30 +11,22 @@
     <title th:text="${movie.title}"/>
 </head>
 <body class="bg">
-<div class="d-flex flex-column flex-md-row justify-content-end p-3 px-md-4 mb-3">
-    <a class="btn btn-dark btn-head" href="/login" sec:authorize="!isAuthenticated()">Log in</a>
-    <a class="btn btn-dark btn-head" href="/registration" sec:authorize="!isAuthenticated()">Sign up</a>
-    <a class="btn btn-dark btn-head" href="/profile" sec:authorize="isAuthenticated()" th:text="${username}"/>
-    <a class="btn btn-dark btn-head" href="/admin" sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
-    <a class="btn btn-dark btn-head" href="/logout" sec:authorize="isAuthenticated()">Log out</a>
-    <a class="btn btn-dark btn-head" href="/">Main</a>
-</div>
-
-
+<header th:insert="blocks/header :: header"/>
 
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
             <form class="form-container"  th:action="'/allMovies/' + ${movie.title} " method="post">
-                <div class="alert-dark">
+                <div class="alert-dark" style="text-align: center">
                     <h3 th:text="${movie.title}"/>
                     <p th:text="'Slogan: ' + ${movie.slogan}"/>
                     <p th:text="'Year: ' + ${movie.year}"/>
                     <p th:text="'Length: ' + ${movie.length}"/>
                     <p th:text="'Times rated: ' + ${movie.numberOfViews}"/>
-                    <p th:text="'Rating: ' + ${movie.rating}"/>
+                    <p th:text="'Rating: ' + ${movie.rating}" id="rating"/>
                     <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="'/allMovies/' + ${movie.title} + '/edit'" class="btn btn-medium btn-secondary">Edit</a>
+                    <a th:href="'/allMovies/' + ${movie.title} + '/rate'" class="btn btn-medium btn-secondary" th:text="${rateButtonName}"/>
                     <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-medium btn-secondary" type="submit">Delete</button>
                     <div>
                         <a href="/allMovies" class="btn btn-medium btn-secondary">Back</a>

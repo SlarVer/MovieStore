@@ -176,4 +176,8 @@ public class User implements UserDetails {
         this.name = name;
         this.birthDate = birthDate;
     }
+
+    public void increaseMoviesWatched() {
+        this.moviesWatched++;
+    }
 }

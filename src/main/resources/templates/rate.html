@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>Profile</title>
+    <title th:text="${movie.title}"/>
 </head>
 <body class="bg">
 <header th:insert="blocks/header :: header"/>
@@ -17,18 +17,24 @@
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container" style="text-align: center">
-                <a href="/profile/picture"><img th:src="${'img/profilePics/' + currentUser.profilePic}"></a>
-                <h3 th:text="${currentUser.username}"/>
-                <h4 th:text="${'Movies rated: ' + currentUser.moviesWatched}"/>
-                <h4 th:text="${'Average mark: ' + currentUser.avgMark}"/>
+            <form class="form-container" th:action="'/allMovies/' + ${movie.title} + '/rate'" method="post">
+                <h3 th:text="'Rate ' + ${movie.title}"/>
                 <div class="form-group">
-                    <a href="/profile/password" class="btn btn-medium btn-secondary">Change password</a>
+                    <label for="mark">Mark</label>
+                    <input type="number" name="mark" id="mark" autofocus="true" class="form-control">
+                </div>
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-medium btn-success">Rate</button>
+                </div>
+                <div>
+                    <a th:href="'/allMovies/' + ${movie.title}" class="btn btn-medium btn-secondary">Back</a>
                 </div>
             </form>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
     </div>
+
+
 </div>
 
 

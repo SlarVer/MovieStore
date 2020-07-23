@@ -1,27 +1,30 @@
 package com.kas.MovieStore.controller;
 
 import com.kas.MovieStore.entity.Movie;
-import com.kas.MovieStore.repository.MovieRepository;
+import com.kas.MovieStore.entity.User;
+import com.kas.MovieStore.entity.UserMovie;
 import com.kas.MovieStore.sevice.MovieService;
-import org.bouncycastle.math.raw.Mod;
+import com.kas.MovieStore.sevice.UserMovieService;
+import com.kas.MovieStore.sevice.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class AllMoviesController {
     @Autowired
     MovieService movieService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserMovieService userMovieService;
 
     @ModelAttribute
     public void globalPageAttributes(Model model, Principal principal) {
@@ -36,6 +39,14 @@ public class AllMoviesController {
 
     @GetMapping("/allMovies/{title}")
     public String moviePage(@PathVariable(value = "title") String title, Model model) {
+        User currentUser = (User) userService.loadUserByUsername((String) model.getAttribute("username"));
+        Movie currentMovie = movieService.findByTitle(title);
+        if (userMovieService.findUserMovie(currentUser, currentMovie) != null) {
+            model.addAttribute("rateButtonName",
+                    "Change mark (" + userMovieService.findUserMovie(currentUser, currentMovie).getMark() + ")");
+        } else {
+            model.addAttribute("rateButtonName", "Rate");
+        }
         Movie movie = movieService.findByTitle(title);
         model.addAttribute("movie", movie);
         return "movie";
@@ -49,19 +60,39 @@ public class AllMoviesController {
 
     @GetMapping("/allMovies/{title}/edit")
     public String movieEditPage(@PathVariable(value = "title") String title, Model model) {
-        Movie movie = movieService.findByTitle(title);
-        model.addAttribute("movie", movie);
+        model.addAttribute("movie", movieService.findByTitle(title));
         return "edit";
     }
 
     @PostMapping("/allMovies/{title}/edit")
     public String movieEditPageProcess(@PathVariable(value = "title") String title,
-                                       @ModelAttribute("movie") @Valid Movie editedMovie, Errors errors, Model model) {
+                                       @ModelAttribute("movie") @Valid Movie editedMovie, Errors errors) {
         if (errors.hasErrors()) {
             return "edit";
         } else {
             movieService.updateMovie(movieService.findByTitle(title), editedMovie);
             return "movie";
         }
+    }
+
+    @GetMapping("/allMovies/{title}/rate")
+    public String movieRatePage(@PathVariable(value = "title") String title, Model model) {
+        model.addAttribute("movie", movieService.findByTitle(title));
+        return "rate";
+    }
+
+    @PostMapping("/allMovies/{title}/rate")
+    public String movieRatePageProcess(@PathVariable(value = "title") String title, @RequestParam int mark,
+                                       Model model, Principal principal){
+        User currentUser = (User) userService.loadUserByUsername((String)model.getAttribute("username"));
+        Movie currentMovie = movieService.findByTitle(title);
+        if (userMovieService.findUserMovie(currentUser, currentMovie) != null) {
+            userMovieService.updateMark(currentUser, currentMovie, mark);
+        } else {
+            userMovieService.saveUserMovie(new UserMovie(currentUser, movieService.findByTitle(title), mark));
+        }
+        movieService.calculateRating(currentMovie);
+        userService.calculateAvgMark(currentUser);
+        return "redirect:/allMovies/{title}";
     }
 }

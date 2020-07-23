@@ -11,6 +11,8 @@
     <title>Login page</title>
 </head>
 <body class="bg">
+<header th:insert="blocks/header :: header"/>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4 col-sm-4 col-xs-12"></div>
@@ -27,12 +29,6 @@
                 </div>
                 <div style="text-align: center">
                     <button type="submit" class="btn btn-success btn-medium">Login</button>
-                </div>
-                <div style="text-align: center">
-                    <a href="/registration" class="btn btn-secondary btn-medium">Sign up</a>
-                </div>
-                <div style="text-align: center">
-                    <a href="/" class="btn btn-secondary btn-medium">Main page</a>
                 </div>
             </form>
         </div>
