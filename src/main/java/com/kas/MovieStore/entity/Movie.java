@@ -113,4 +113,11 @@ public class Movie {
         this.year = year;
         this.length = length;
     }
+
+    public void copy(Movie movie) {
+        this.title = movie.title;
+        this.slogan = movie.slogan;
+        this.year = movie.year;
+        this.length = movie.length;
+    }
 }

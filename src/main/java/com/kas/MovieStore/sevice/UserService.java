@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Collections;
-import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -46,10 +45,6 @@ public class UserService implements UserDetailsService {
     public boolean checkPassword(String username, String rawPassword) {
         return bCryptPasswordEncoder.matches(rawPassword, userRepository.findByUsername(username).getPassword());
     }
-
-//    public List<String> customPasswordValidation(String password) {
-//        String regex = "/(?=.*[0-9])(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{6,}/g";
-//    }
 
     @Transactional
     public void updatePassword(String username, String password) {

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title th:text="${movie.title}"/>
+    <title>Edit</title>
 </head>
 <body class="bg">
 <div class="d-flex flex-column flex-md-row justify-content-end p-3 px-md-4 mb-3">
@@ -24,25 +24,37 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-3 col-sm-3 col-xs-12"></div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container"  th:action="'/allMovies/' + ${movie.title} " method="post">
-                <div class="alert-dark">
-                    <h3 th:text="${movie.title}"/>
-                    <p th:text="'Slogan: ' + ${movie.slogan}"/>
-                    <p th:text="'Year: ' + ${movie.year}"/>
-                    <p th:text="'Length: ' + ${movie.length}"/>
-                    <p th:text="'Times rated: ' + ${movie.numberOfViews}"/>
-                    <p th:text="'Rating: ' + ${movie.rating}"/>
-                    <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="'/allMovies/' + ${movie.title} + '/edit'" class="btn btn-medium btn-secondary">Edit</a>
-                    <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-medium btn-secondary" type="submit">Delete</button>
-                    <div>
-                        <a href="/allMovies" class="btn btn-medium btn-secondary">Back</a>
-                    </div>
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12">
+            <form method="post" class="form-container" th:object="${movie}">
+                <h2 style="text-align: center">Edit movie</h2>
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input th:field="*{title}" placeholder="Enter title" class="form-control">
+                    <span th:errors="*{title}" class="error" id="title" ></span>
+                </div>
+                <div class="form-group">
+                    <label for="slogan">Slogan</label>
+                    <input th:field="*{slogan}" placeholder="Enter slogan" class="form-control">
+                    <span th:errors="*{slogan}" class="error" id="slogan" ></span>
+                </div>
+                <div class="form-group">
+                    <label for="year">Year</label>
+                    <input th:field="*{year}" placeholder="Enter year" class="form-control">
+                    <span th:errors="*{year}" class="error" id="year" ></span>
+                </div>
+                <div class="form-group">
+                    <label for="length">Length</label>
+                    <input th:field="*{length}" placeholder="Enter length (min)" class="form-control">
+                    <span th:errors="*{length}" class="error" id="length" ></span>
+                </div>
+                <div class="form-group" style="text-align: center">
+                    <button type="submit" class="btn btn-medium btn-secondary" style="text-align: center">Update</button>
+                    <a th:href="'/allMovies/' + ${movie.title}" class="btn btn-medium btn-secondary">Back</a>
                 </div>
             </form>
         </div>
-        <div class="col-md-3 col-sm-3 col-xs-12"></div>
+        <div class="col-md-4 col-sm-4 col-xs-12"></div>
     </div>
 
 
