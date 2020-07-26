@@ -21,7 +21,8 @@
                 <a href="/profile/picture"><img th:src="${'img/profilePics/' + currentUser.profilePic}"></a>
                 <h3 th:text="${currentUser.username}"/>
                 <h4 th:text="${'Movies rated: ' + currentUser.moviesWatched}"/>
-                <h4 th:text="${'Average mark: ' + currentUser.avgMark}"/>
+                <h4 th:if="${currentUser.avgMark != null}" th:text="${'Average mark: ' + currentUser.avgMark}"/>
+                <h4 th:if="${currentUser.avgMark == null}" th:text="'No marks'"/>
                 <div class="form-group">
                     <a href="/profile/password" class="btn btn-medium btn-secondary">Change password</a>
                 </div>

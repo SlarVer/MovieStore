@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,11 +39,7 @@ public class Movie {
     @Value("0")
     private int numberOfViews;
 
-    @NotNull
-    @Min(value = 0)
-    @Max(value = 10)
-    @Value("0.0")
-    private double rating;
+    private BigDecimal rating;
 
     @NotNull
     @Value("false")
@@ -95,11 +92,11 @@ public class Movie {
         this.numberOfViews = numberOfViews;
     }
 
-    public double getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
 

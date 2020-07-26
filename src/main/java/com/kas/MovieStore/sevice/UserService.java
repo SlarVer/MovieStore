@@ -13,6 +13,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collections;
 
 @Service
@@ -62,6 +64,6 @@ public class UserService implements UserDetailsService {
         for (UserMovie userMovie: userMovieRepository.getAllByUser(user)) {
             sumMark += userMovie.getMark();
         }
-        user.setAvgMark((double) sumMark / user.getMovies().size());
+        user.setAvgMark(BigDecimal.valueOf((double) sumMark / user.getMovies().size()).setScale(2, RoundingMode.HALF_UP));
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 @Service
@@ -50,7 +52,7 @@ public class MovieService {
         for (UserMovie userMovie: userMovieRepository.getAllByMovie(movie)) {
             sumRating += userMovie.getMark();
         }
-        movie.setRating((double) sumRating / movie.getUsers().size());
+        movie.setRating(BigDecimal.valueOf((double) sumRating / movie.getUsers().size()).setScale(2, RoundingMode.HALF_UP));
     }
 
     @Transactional

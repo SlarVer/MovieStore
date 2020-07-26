@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -42,8 +43,7 @@ public class User implements UserDetails {
     @Min(value = 0)
     private int moviesWatched;
 
-    @Min(value = 0)
-    private double avgMark;
+    private BigDecimal avgMark;
 
     private String profilePic;
 
@@ -118,11 +118,11 @@ public class User implements UserDetails {
         this.moviesWatched = moviesWatched;
     }
 
-    public double getAvgMark() {
+    public BigDecimal getAvgMark() {
         return avgMark;
     }
 
-    public void setAvgMark(double avgMark) {
+    public void setAvgMark(BigDecimal avgMark) {
         this.avgMark = avgMark;
     }
 

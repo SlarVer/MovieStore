@@ -22,7 +22,8 @@
                 <div th:each="movie: ${allMoviesList}" class="alert-dark">
                     <a th:text="${movie.title}" th:href="'/allMovies/' + ${movie.title}" style="font-size: large"/>
                     <p th:text="'Year: ' + ${movie.year}"/>
-                    <p th:text="'Rating: ' + ${movie.rating}"/>
+                    <p th:if="${movie.rating != null}" th:text="'Rating: ' + ${movie.rating}"/>
+                    <p th:if="${movie.rating == null}" th:text="'No rating'"/>
                 </div>
                 <div>
                     <a href="/" class="btn btn-medium btn-secondary">Back</a>
