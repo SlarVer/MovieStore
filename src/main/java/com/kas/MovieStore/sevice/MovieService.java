@@ -26,8 +26,6 @@ public class MovieService {
         if (movieRepository.findByTitle(movie.getTitle()) != null) {
             return false;
         } else {
-            movie.setNumberOfViews(0);
-            movie.setRating(0.0);
             movieRepository.save(movie);
             return true;
         }
@@ -53,5 +51,19 @@ public class MovieService {
             sumRating += userMovie.getMark();
         }
         movie.setRating((double) sumRating / movie.getUsers().size());
+    }
+
+    @Transactional
+    public void addToChoice(Movie movie) {
+        movie.setAdminChoice(true);
+    }
+
+    @Transactional
+    public void removeFromChoice(Movie movie) {
+        movie.setAdminChoice(false);
+    }
+
+    public List<Movie> getMoviesInChoice() {
+        return movieRepository.findAllByAdminChoiceTrue();
     }
 }

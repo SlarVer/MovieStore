@@ -51,12 +51,6 @@ public class AllMoviesController {
         model.addAttribute("movie", movie);
         return "movie";
     }
-    
-    @PostMapping("/allMovies/{title}")
-    public String deleteMovie(@PathVariable(value = "title") String title) {
-        movieService.deleteMovie(movieService.findByTitle(title));
-        return "redirect:/allMovies";
-    }
 
     @GetMapping("/allMovies/{title}/edit")
     public String movieEditPage(@PathVariable(value = "title") String title, Model model) {
@@ -93,6 +87,24 @@ public class AllMoviesController {
         }
         movieService.calculateRating(currentMovie);
         userService.calculateAvgMark(currentUser);
+        return "redirect:/allMovies/{title}";
+    }
+
+    @PostMapping("/allMovies/{title}/delete")
+    public String deleteMovie(@PathVariable(value = "title") String title) {
+        movieService.deleteMovie(movieService.findByTitle(title));
+        return "redirect:/allMovies";
+    }
+
+    @PostMapping("/allMovies/{title}/addToChoice")
+    public String addToAdminChoice(@PathVariable(value = "title") String title) {
+        movieService.addToChoice(movieService.findByTitle(title));
+        return "redirect:/allMovies/{title}";
+    }
+
+    @PostMapping("/allMovies/{title}/removeFromChoice")
+    public String removeFromAdminChoice(@PathVariable(value = "title") String title) {
+        movieService.removeFromChoice(movieService.findByTitle(title));
         return "redirect:/allMovies/{title}";
     }
 }

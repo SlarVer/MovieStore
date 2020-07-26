@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>All movies</title>
+    <title>Edit admin choice</title>
 </head>
 <body class="bg">
 <header th:insert="blocks/header :: header"/>
@@ -17,17 +17,32 @@
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container">
-                <h1 style="text-align: center">All the movies</h1>
-                <div th:each="movie: ${allMoviesList}" class="alert-dark">
+            <div class="form-container">
+                <h1 style="text-align: center">Edit admin choice</h1>
+                <form action="/admin/addToChoice" method="post">
+                    <div class="form-group">
+                        <input name="title" id="title" placeholder="Title"
+                               class="form-control">
+                    </div>
+                    <div style="text-align: center">
+                        <button type="submit" class="btn btn-success btn-medium">Add</button>
+                    </div>
+                    <p th:if="${movieNotFoundError != null}" class="alert alert-danger" th:text="${movieNotFoundError}"/>
+                    <p th:if="${movieAlreadyInChoiceError != null}" class="alert alert-danger" th:text="${movieAlreadyInChoiceError}"/>
+                    <p th:if="${successAddedToChoice != null}" class="alert alert-success" th:text="${successAddedToChoice}"/>
+                </form>
+                <div th:each="movie: ${choiceList}" class="alert-dark">
                     <a th:text="${movie.title}" th:href="'/allMovies/' + ${movie.title}" style="font-size: large"/>
                     <p th:text="'Year: ' + ${movie.year}"/>
                     <p th:text="'Rating: ' + ${movie.rating}"/>
+                    <form th:action="'/admin/' + ${movie.title} + '/removeFromChoice'" method="post">
+                        <button class="btn btn-medium btn-secondary" type="submit">Remove from choice</button>
+                    </form>
                 </div>
                 <div>
-                    <a href="/" class="btn btn-medium btn-secondary">Back</a>
+                    <a href="/admin" class="btn btn-medium btn-secondary">Back</a>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
     </div>

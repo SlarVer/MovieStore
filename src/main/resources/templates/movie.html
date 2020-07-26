@@ -17,7 +17,7 @@
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container"  th:action="'/allMovies/' + ${movie.title} " method="post">
+            <div class="form-container">
                 <div class="alert-dark" style="text-align: center">
                     <h3 th:text="${movie.title}"/>
                     <p th:text="'Slogan: ' + ${movie.slogan}"/>
@@ -27,12 +27,20 @@
                     <p th:text="'Rating: ' + ${movie.rating}" id="rating"/>
                     <a sec:authorize="hasRole('ROLE_ADMIN')" th:href="'/allMovies/' + ${movie.title} + '/edit'" class="btn btn-medium btn-secondary">Edit</a>
                     <a th:href="'/allMovies/' + ${movie.title} + '/rate'" class="btn btn-medium btn-secondary" th:text="${rateButtonName}"/>
-                    <button sec:authorize="hasRole('ROLE_ADMIN')" class="btn btn-medium btn-secondary" type="submit">Delete</button>
+                    <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="'/allMovies/' + ${movie.title} + '/delete'" method="post">
+                        <button class="btn btn-medium btn-secondary" type="submit">Delete</button>
+                    </form>
+                    <form th:if="${!movie.adminChoice}" sec:authorize="hasRole('ROLE_ADMIN')" th:action="'/allMovies/' + ${movie.title} + '/addToChoice'" method="post">
+                        <button class="btn btn-medium btn-secondary" type="submit">Add to choice</button>
+                    </form>
+                    <form th:if="${movie.adminChoice}" sec:authorize="hasRole('ROLE_ADMIN')" th:action="'/allMovies/' + ${movie.title} + '/removeFromChoice'" method="post">
+                        <button class="btn btn-medium btn-secondary" type="submit">Remove from choice</button>
+                    </form>
                     <div>
                         <a href="/allMovies" class="btn btn-medium btn-secondary">Back</a>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
     </div>

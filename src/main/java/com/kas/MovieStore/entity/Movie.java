@@ -1,6 +1,7 @@
 package com.kas.MovieStore.entity;
 
 import com.sun.istack.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -34,12 +35,18 @@ public class Movie {
 
     @NotNull
     @Min(value = 0)
+    @Value("0")
     private int numberOfViews;
 
     @NotNull
     @Min(value = 0)
     @Max(value = 10)
+    @Value("0.0")
     private double rating;
+
+    @NotNull
+    @Value("false")
+    private boolean adminChoice;
 
     @OneToMany(
             mappedBy = "movie",
@@ -102,6 +109,14 @@ public class Movie {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public boolean isAdminChoice() {
+        return adminChoice;
+    }
+
+    public void setAdminChoice(boolean adminChoice) {
+        this.adminChoice = adminChoice;
     }
 
     public List<UserMovie> getUsers() {
