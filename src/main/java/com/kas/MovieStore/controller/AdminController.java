@@ -75,7 +75,7 @@ public class AdminController {
                 model.addAttribute("successAddedToChoice", "Movie successfully added");
             }
         } else {
-            model.addAttribute("movieNotFoundError", "Film not found");
+            model.addAttribute("movieNotFoundError", "Movie not found");
         }
         return "editChoice";
     }

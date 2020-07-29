@@ -8,20 +8,25 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <title>Main page</title>
+    <title>Admin choice</title>
 </head>
 <body class="bg">
 <header th:insert="blocks/header :: header"/>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3 col-sm-3 col-xs-12"></div>
         <div class="col-md-6 col-sm-6 col-xs-12">
-            <form class="form-container" style="text-align: center">
-                <div class="form-group">
-                    <a href="/allMovies" class="btn btn-medium btn-secondary">All movies</a>
+            <form class="form-container">
+                <h1 style="text-align: center">Admin choice</h1>
+                <div th:each="movie: ${chosenMovies}" class="alert-dark">
+                    <a th:text="${movie.title}" th:href="'/allMovies/' + ${movie.title}" style="font-size: large"/>
+                    <p th:text="'Year: ' + ${movie.year}"/>
+                    <p th:if="${movie.rating != null}" th:text="'Rating: ' + ${movie.rating}"/>
+                    <p th:if="${movie.rating == null}" th:text="'No rating'"/>
                 </div>
-                <div class="form-group">
-                    <a href="/choice" class="btn btn-medium btn-secondary">Admin choice</a>
+                <div>
+                    <a href="/" class="btn btn-medium btn-secondary">Back</a>
                 </div>
             </form>
         </div>
