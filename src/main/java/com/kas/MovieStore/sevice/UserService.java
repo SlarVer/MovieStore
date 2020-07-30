@@ -54,7 +54,7 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updatePassword(String username, String password) {
+    public void changePassword(String username, String password) {
         userRepository.findByUsername(username).setPassword(bCryptPasswordEncoder.encode(password));
     }
 
@@ -65,5 +65,10 @@ public class UserService implements UserDetailsService {
             sumMark += userMovie.getMark();
         }
         user.setAvgMark(BigDecimal.valueOf((double) sumMark / user.getMovies().size()).setScale(2, RoundingMode.HALF_UP));
+    }
+
+    @Transactional
+    public void changePicture(String username, String pictureLink) {
+        userRepository.findByUsername(username).setProfilePic(pictureLink);
     }
 }

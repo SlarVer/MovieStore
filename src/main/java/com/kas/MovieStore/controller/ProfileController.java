@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -21,7 +18,8 @@ public class ProfileController {
 
     @ModelAttribute
     public void globalPageAttributes(Model model, Principal principal) {
-        model.addAttribute("currentUser", userService.loadUserByUsername(principal.getName()));
+        User currentUser = (User) userService.loadUserByUsername(principal.getName());
+        model.addAttribute("currentUser", currentUser);
         model.addAttribute("username", principal.getName());
     }
 
@@ -30,32 +28,11 @@ public class ProfileController {
         return "profile";
     }
 
-//    @GetMapping("/profile/picture")
-//    public String pictureChange(Model model) {
-//        model.addAttribute("choice");
-//        return "picture";
-//    }
-//
-//    @PostMapping("/profile/picture")
-//    public String pictureChangeAction(@RequestParam String choice) {
-//
-//    }
-
     @GetMapping("/profile/password")
     public String passwordChange(Model model) {
         model.addAttribute(new User());
         return "password";
     }
-
-//    @PostMapping("/profile/picture")
-//    public String passwordChangeAction(@RequestParam String currentPassword, @RequestParam String newPassword,
-//                                       Model model, Principal principal) {
-//        if (userService.checkPassword(principal.getName(), currentPassword)) {
-//            model.addAttribute("passwordCheckError", "Incorrect current password");
-//            return "password";
-//        }
-//        return "meh";
-//    }
 
     @PostMapping("/profile/password")
     public String passwordChangeAction(@RequestParam String currentPassword, @RequestParam String repeatNewPassword,
@@ -75,10 +52,20 @@ public class ProfileController {
         if (errors.hasErrors()) {
             return "password";
         }
-        userService.updatePassword(principal.getName(), tempUser.getPassword());
+        userService.changePassword(principal.getName(), tempUser.getPassword());
         model.addAttribute("passwordUpdateSuccess", "Password cuccessfully updated");
         return "password";
     }
 
+    @GetMapping("/profile/picture")
+    public String pictureChange() {
+        return "picture";
+    }
+
+    @GetMapping("/profile/picture/{id}")
+    public String pictureChangeProcess(@PathVariable(value = "id") String pictureId, Principal principal) {
+        userService.changePicture(principal.getName(), pictureId + ".png");
+        return "redirect:/profile";
+    }
 
 }
